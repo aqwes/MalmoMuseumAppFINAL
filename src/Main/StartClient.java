@@ -7,7 +7,7 @@ import Client.Client;
  */
 class StartClient {
     public static void main(String[] args) {
-        Client client = new Client("localhost", 4567);
+        Client client = new Client("localhost", 9990);
 
 
     }
