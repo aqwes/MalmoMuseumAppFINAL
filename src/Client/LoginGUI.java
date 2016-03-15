@@ -76,7 +76,7 @@ class LoginGUI implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if((userText.getText().length()>5) && (passwordText.getText().length()>5)) {
+        if((userText.getText().length()>0) && (passwordText.getText().length()>0)) {
             if (loginButton == e.getSource()) {
                 client.connect(userText.getText(), passwordText.getText(), false);
             }

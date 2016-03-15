@@ -13,6 +13,7 @@ public class ConnectorUser {
     private String name;
     private String pass;
     private String regex ="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
+    private boolean reg;
 
     public ConnectorUser(int port) {
         String dbName = "museumapp";
@@ -68,24 +69,24 @@ public class ConnectorUser {
     }
 
     public boolean connectorREG(String username, String password) {
-        boolean reg=false;
     try {
         statement = conn.createStatement();
         resultSet = statement.executeQuery("SELECT userName, password from Medlem");
 
         while (resultSet.next()) {
             name = resultSet.getString(1);
-
             if (name.equals(username)) {
-                 reg = false;
+                  reg = false;
+                break;
             }
         }
-        if(reg) {
-            if(username.matches(regex) && password.matches(regex))
-    statement.executeUpdate("INSERT INTO Medlem (userName, password, points) VALUES "
-            + "('" + username + "', '" + password + "','0');");
-            reg=true;
-        }
+
+            if(username.matches(regex) && password.matches(regex)) {
+                statement.executeUpdate("INSERT INTO Medlem (userName, password, points) VALUES "
+                        + "('" + username + "', '" + password + "','0');");
+                reg = true;
+                System.out.print("df");
+            }
 
     } catch (SQLException e) {
         e.printStackTrace();
