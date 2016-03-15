@@ -42,7 +42,7 @@ public class ClientThread extends Thread {
      * This method read data from the stream that the server has written.
      */
     public void run() {
-        String message=null;
+        String message="";
         while (true) {
             try {
                 streamIn = new DataInputStream(socket.getInputStream());
@@ -57,6 +57,13 @@ public class ClientThread extends Thread {
                         gui.emptyfields();
                         JOptionPane.showMessageDialog(null,"Användarnamn eller lösenord är fel!");
                     }
+                    else if (message.equals("regCorr")) {
+                        questionPanel.start();
+                        gui.close();
+                        connected = false;
+                        JOptionPane.showMessageDialog(null,"Grattis! Du är nu registrerad. Välkommen in i värmen!");
+                    }
+
                     else if (message.equals("regWrong")) {
                         gui.emptyfields();
                         JOptionPane.showMessageDialog(null,"Både användarnamn och lösenord måste uppnå följande regler"+"\n"+
@@ -73,6 +80,7 @@ public class ClientThread extends Thread {
                         questionPanel.clear();
                         questionPanel.noMoreQuestions();
                         client.sendPoint(questionPanel.getPoints());
+
                         close();
                         break;
                     }

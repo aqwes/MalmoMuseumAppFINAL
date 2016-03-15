@@ -27,6 +27,7 @@ class QuestionPanel implements ActionListener {
     private JButton nextButton;
     private JButton exitButton;
     private int j = 0;
+    private int answeredQuestions;
 
     public QuestionPanel(Client client) {
         this.client = client;
@@ -183,6 +184,11 @@ class QuestionPanel implements ActionListener {
             answer2.setSelected(false);
             answer3.setSelected(false);
             answerCorrOrWrong.setText("");
+            answeredQuestions++;
+
+            if(answeredQuestions==5){
+                nextButton.setText("Avsluta runda!");
+            }
         }
         try {
 
@@ -258,7 +264,7 @@ class QuestionPanel implements ActionListener {
         answer1.setText("");
         answer2.setText("");
         answer3.setText("");
-        nextButton.setText("Avsluta runda!");
+
 
     }
 }

@@ -93,7 +93,7 @@ public class ServerThread extends Thread {
                 }
                 if(userRegTrue && passRegTrue){
                     if (connectorUser.connectorREG(user, password)) {
-                        streamOut.writeUTF("Connected");
+                        streamOut.writeUTF("regCorr");
                         streamOut.flush();
                         userRegTrue = false;
                         passRegTrue = false;
