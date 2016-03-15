@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 
 class QuestionPanel implements ActionListener {
     private Font header = new Font("TimesRoman", Font.PLAIN, 30);
-    private Font reg = new Font("TimesRoman", Font.PLAIN, 18);
+    private Font reg = new Font("TimesRoman", Font.PLAIN, 22);
+    private Font que = new Font("TimesRoman", Font.BOLD, 20);
     private JTextPane question1;
     private JTextPane points;
     private String correctAnswer;
@@ -33,14 +34,17 @@ class QuestionPanel implements ActionListener {
 
     public void start() {
         init();
-        frame = new JFrame("QuestionPanel");
+        frame = new JFrame("Frågepanel");
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setSize(new Dimension(350, 450));
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(northPanel, BorderLayout.NORTH);
         frame.add(centerPanel, BorderLayout.CENTER);
         frame.add(southPanel, BorderLayout.SOUTH);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
@@ -53,13 +57,13 @@ class QuestionPanel implements ActionListener {
         centerPanel.setBackground(Color.LIGHT_GRAY);
         southPanel.setBackground(Color.LIGHT_GRAY);
 //Question
-        questionlabel1 = new JLabel("Question");
-        questionlabel1.setPreferredSize(new Dimension(220, 30));
+        questionlabel1 = new JLabel("Fråga");
+        questionlabel1.setPreferredSize(new Dimension(170, 50));
         questionlabel1.setFont(header);
         questionlabel1.setForeground(Color.LIGHT_GRAY);
 
-        pointslabel1 = new JLabel("Points:");
-        pointslabel1.setPreferredSize(new Dimension(50, 18));
+        pointslabel1 = new JLabel("Poäng:");
+        pointslabel1.setPreferredSize(new Dimension(70, 50));
         pointslabel1.setFont(reg);
         pointslabel1.setForeground(Color.LIGHT_GRAY);
 
@@ -81,20 +85,20 @@ class QuestionPanel implements ActionListener {
 
 //Answer 1
         answer1 = new JCheckBox();
-        answer1.setPreferredSize(new Dimension(200, 40));
-        answer1.setFont(reg);
+        answer1.setPreferredSize(new Dimension(300, 40));
+        answer1.setFont(que);
 
 
 //Answer 2
         answer2 = new JCheckBox();
-        answer2.setPreferredSize(new Dimension(200, 40));
-        answer2.setFont(reg);
+        answer2.setPreferredSize(new Dimension(300, 40));
+        answer2.setFont(que);
 
 
 //Answer 3
         answer3 = new JCheckBox();
-        answer3.setPreferredSize(new Dimension(200, 40));
-        answer3.setFont(reg);
+        answer3.setPreferredSize(new Dimension(300, 40));
+        answer3.setFont(que);
 
 
         answerCorrOrWrong = new JLabel();
@@ -102,12 +106,12 @@ class QuestionPanel implements ActionListener {
         answerCorrOrWrong.setFont(header);
 
 
-        nextButton = new JButton("Question");
+        nextButton = new JButton("Nästa fråga");
         nextButton.setPreferredSize(new Dimension(300, 40));
         nextButton.setFont(header);
 
 
-        exitButton = new JButton("Exit");
+        exitButton = new JButton("Avsluta");
         exitButton.setPreferredSize(new Dimension(300, 40));
         exitButton.setFont(header);
 
@@ -187,10 +191,10 @@ class QuestionPanel implements ActionListener {
                 disabelButtons();
                 answer = "1";
                 if (correctAnswer.equals(answer)) {
-                    answerCorrOrWrong.setText("CORRECT");
+                    answerCorrOrWrong.setText("Rätt!");
                     userPoints++;
                 } else {
-                    answerCorrOrWrong.setText("WRONG");
+                    answerCorrOrWrong.setText("Fel!");
                 }
 
             }
@@ -198,20 +202,20 @@ class QuestionPanel implements ActionListener {
                 disabelButtons();
                 answer = "2";
                 if (correctAnswer.equals(answer)) {
-                    answerCorrOrWrong.setText("CORRECT");
+                    answerCorrOrWrong.setText("Rätt!");
                     userPoints++;
                 } else {
-                    answerCorrOrWrong.setText("WRONG");
+                    answerCorrOrWrong.setText("Fel!");
                 }
             }
             if (answer3.isSelected()) {
                 disabelButtons();
                 answer = "3";
                 if (correctAnswer.equals(answer)) {
-                    answerCorrOrWrong.setText("CORRECT");
+                    answerCorrOrWrong.setText("Rätt!");
                     userPoints++;
                 } else {
-                    answerCorrOrWrong.setText("WRONG");
+                    answerCorrOrWrong.setText("Fel!");
                 }
             }
         } catch (NullPointerException r) {
@@ -229,12 +233,32 @@ class QuestionPanel implements ActionListener {
         answer3.setEnabled(false);
     }
     public void noMoreQuestions(){
-        JOptionPane.showMessageDialog(null,"Congratz you made it! Points: "+points.getText());
+        if(Integer.parseInt(points.getText())<=2){
+            JOptionPane.showMessageDialog(null,"Det där gick inte så bra, skärpning! Du fick "+points.getText()+" poäng.");
+        }
+
+        else if(Integer.parseInt(points.getText())==3){
+            JOptionPane.showMessageDialog(null,"Du var ganska duktig men vi tror att du kan göra lite bättre ifrån dig. Du fick "+points.getText()+" poäng.");
+        }
+        else if(Integer.parseInt(points.getText())==4){
+            JOptionPane.showMessageDialog(null,"Bra jobbat! Du fick "+points.getText()+" poäng");
+        }
+        else if(Integer.parseInt(points.getText())==5){
+            JOptionPane.showMessageDialog(null,"Alla rätt! Du är en riktigt mästaren! Stort grattis! Du fick "+points.getText()+" poäng.");
+        }
         close();
     }
 
     public String getPoints() {
         return points.getText();
+    }
+
+    public void clear() {
+        question1.setText("");
+        answer1.setText("");
+        answer2.setText("");
+        answer3.setText("");
+
     }
 }
 

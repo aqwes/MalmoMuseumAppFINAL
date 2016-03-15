@@ -62,6 +62,7 @@ public class ClientThread extends Thread {
 
                 while ((userInput = streamIn.readUTF()) != null) {
                     if (userInput.equals("noMoreQuestions")) {
+                        questionPanel.clear();
                         questionPanel.noMoreQuestions();
                         client.sendPoint(questionPanel.getPoints());
                         close();
