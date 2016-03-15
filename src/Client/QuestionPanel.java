@@ -34,7 +34,7 @@ class QuestionPanel implements ActionListener {
     public void start() {
         init();
         frame = new JFrame("QuestionPanel");
-        frame.setSize(new Dimension(350, 430));
+        frame.setSize(new Dimension(350, 450));
         frame.setLayout(new BorderLayout());
         frame.add(northPanel, BorderLayout.NORTH);
         frame.add(centerPanel, BorderLayout.CENTER);
@@ -49,17 +49,19 @@ class QuestionPanel implements ActionListener {
         centerPanel = new JPanel();
         southPanel = new JPanel();
 
-        northPanel.setBackground(Color.red);
-        centerPanel.setBackground(Color.red);
-        southPanel.setBackground(Color.red);
+        northPanel.setBackground(Color.black);
+        centerPanel.setBackground(Color.LIGHT_GRAY);
+        southPanel.setBackground(Color.LIGHT_GRAY);
 //Question
         questionlabel1 = new JLabel("Question");
         questionlabel1.setPreferredSize(new Dimension(220, 30));
         questionlabel1.setFont(header);
+        questionlabel1.setForeground(Color.LIGHT_GRAY);
 
         pointslabel1 = new JLabel("Points:");
         pointslabel1.setPreferredSize(new Dimension(50, 18));
         pointslabel1.setFont(reg);
+        pointslabel1.setForeground(Color.LIGHT_GRAY);
 
         points = new JTextPane();
         points.setPreferredSize(new Dimension(30, 30));
@@ -68,10 +70,11 @@ class QuestionPanel implements ActionListener {
         points.setEditable(false);
 
         question1 = new JTextPane();
-        question1.setPreferredSize(new Dimension(350, 40));
+        question1.setPreferredSize(new Dimension(350, 120));
         question1.setFont(reg);
-        question1.setBackground(Color.lightGray);
+        question1.setBackground(Color.LIGHT_GRAY);
         question1.setEditable(false);
+
 
 // Points
 
@@ -105,7 +108,8 @@ class QuestionPanel implements ActionListener {
 
 
         exitButton = new JButton("Exit");
-        exitButton.setBounds(10, 80, 80, 25);
+        exitButton.setPreferredSize(new Dimension(300, 40));
+        exitButton.setFont(header);
 
 
         northPanel.add(questionlabel1);
@@ -119,9 +123,9 @@ class QuestionPanel implements ActionListener {
         southPanel.add(nextButton);
         southPanel.add(exitButton);
 
-        northPanel.setPreferredSize(new Dimension(350, 132));
-        centerPanel.setPreferredSize(new Dimension(200, 132));
-        southPanel.setPreferredSize(new Dimension(350, 132));
+        northPanel.setPreferredSize(new Dimension(350, 150));
+        centerPanel.setPreferredSize(new Dimension(200, 110));
+        southPanel.setPreferredSize(new Dimension(350, 130));
         nextButton.addActionListener(this);
         exitButton.addActionListener(this);
         answer1.addActionListener(this);
