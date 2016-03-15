@@ -21,7 +21,7 @@ public class Client implements Runnable {
         this.port = port;
     }
 
-    public void connect(String userName, String password) {
+    public void connect(String userName, String password, boolean regOrLog) {
 
         System.out.println("Attempting to connect to " + hostname + ":" + port);
         try {
@@ -41,13 +41,20 @@ public class Client implements Runnable {
         } catch (IOException ignored) {
         }
 
-        try {
-            streamOut.writeUTF("username11." + userName);
-            streamOut.writeUTF("password11." + password);
-            streamOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                if (!regOrLog) {
+                streamOut.writeUTF("username." + userName);
+                streamOut.writeUTF("password." + password);
+                streamOut.flush();
+
+            }else if (regOrLog) {
+                    streamOut.writeUTF("regname." + userName);
+                    streamOut.writeUTF("regpass." + password);
+                    streamOut.flush();
+            }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
     }
 

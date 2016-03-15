@@ -20,16 +20,18 @@ public class ServerThread extends Thread {
     private DataOutputStream streamOut;
     private String user;
     private String password;
-    private boolean passTrue = false;
     private ConnectorUser connectorUser;
-    private boolean userTrue;
     private ConnectorQuestion conQuestion;
-    private Server server = null;
+
     private String points;
 
+    private boolean userTrue = false;
+    private boolean passTrue = false;
+    private boolean userRegTrue = false;
+    private boolean passRegTrue = false;
 
-    public ServerThread(Server server, Socket socket) {
-        this.server = server;
+
+    public ServerThread(Socket socket) {
         this.socket = socket;
         conQuestion = new ConnectorQuestion(3306, this);
         connectorUser = new ConnectorUser(3306);
@@ -73,15 +75,36 @@ public class ServerThread extends Thread {
                 if (line.contains("next")) {
                     readFromClient();
                 }
-                if (line.contains("username11.")) {
-                    user = line.replaceAll("username11.", "");
+                if (line.contains("username.")) {
+                    user = line.replaceAll("username.", "");
                     userTrue = true;
                 }
-                if (line.contains("password11.")) {
-                    password = line.replaceAll("password11.", "");
+                if (line.contains("password.")) {
+                    password = line.replaceAll("password.", "");
                     passTrue = true;
                 }
-                if (userTrue && passTrue) {
+                if (line.contains("regname.")) {
+                    user = line.replaceAll("regname.", "");
+                    userRegTrue = true;
+                }
+                if (line.contains("regpass.")) {
+                    password = line.replaceAll("regpass.", "");
+                    passRegTrue = true;
+                }
+                if(userRegTrue && passRegTrue){
+                    if (connectorUser.connectorREG(user, password)) {
+                        streamOut.writeUTF("Connected");
+                        streamOut.flush();
+                        userRegTrue = false;
+                        passRegTrue = false;
+
+                    } else if (!connectorUser.connectorREG(user, password)) {
+                        streamOut.writeUTF("regWrong");
+                        streamOut.flush();
+                    }
+
+                }
+                else if (userTrue && passTrue) {
                     if (connectorUser.user(user, password)) {
                         streamOut.writeUTF("Connected");
                         streamOut.flush();
@@ -93,7 +116,7 @@ public class ServerThread extends Thread {
                     }
                 }
                 if (line.contains("clientExit.")) {
-                    System.out.print(socket + "Disconected");
+                    System.out.print(socket + "Disconnected");
 
                 }
                 if (line.contains("points.")) {

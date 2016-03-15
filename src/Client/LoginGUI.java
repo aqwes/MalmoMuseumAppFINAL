@@ -14,7 +14,7 @@ class LoginGUI implements ActionListener {
     private JFrame frame;
     private Client client;
     private JButton loginButton;
-    private JButton quitButton;
+    private JButton regButton;
 
 
     private Font que = new Font("TimesRoman", Font.ROMAN_BASELINE, 18);
@@ -65,23 +65,22 @@ class LoginGUI implements ActionListener {
         loginButton.setFont(que);
         panel.add(loginButton);
 
-
-        quitButton = new JButton("Avsluta");
-        quitButton.setBounds(140, 80, 100, 30);
-        quitButton.setFont(que);
-        panel.add(quitButton);
+        regButton = new JButton("Registrera");
+        regButton.setBounds(140, 80, 100, 30);
+        regButton.setFont(que);
+        panel.add(regButton);
 
         loginButton.addActionListener(this);
-        quitButton.addActionListener(this);
+        regButton.addActionListener(this);
 
     }
 
     public void actionPerformed(ActionEvent e) {
         if (loginButton == e.getSource()) {
-            client.connect(userText.getText(), passwordText.getText());
+            client.connect(userText.getText(), passwordText.getText(),false);
         }
-        if (quitButton == e.getSource()) {
-           close();
+        if (regButton == e.getSource()) {
+            client.connect(userText.getText(), passwordText.getText(),true);
         }
     }
 

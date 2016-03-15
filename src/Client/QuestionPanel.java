@@ -258,6 +258,7 @@ class QuestionPanel implements ActionListener {
         answer1.setText("");
         answer2.setText("");
         answer3.setText("");
+        nextButton.setText("Avsluta runda!");
 
     }
 }

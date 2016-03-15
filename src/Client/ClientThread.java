@@ -55,7 +55,15 @@ public class ClientThread extends Thread {
                     }
                     else if (message.equals("Wrong")) {
                         gui.emptyfields();
-                        JOptionPane.showMessageDialog(null,"WRONG PASSWORD");
+                        JOptionPane.showMessageDialog(null,"Fel användarnamn eller lösernord.");
+                    }
+                    else if (message.equals("regWrong")) {
+                        gui.emptyfields();
+                        JOptionPane.showMessageDialog(null,"Både användarnamn och lösenord måste uppnå följande regler"+"\n"+
+                        "* Måste vara minst 6 karaktärer långt."+"\n"+
+                                "* Måste innehålla minst en versal."+"\n"+
+                                "* Måste innehålla minst en gemen."+"\n"+
+                                "* Mellanslag är ej tillåtet.");
                     }
 
                 }

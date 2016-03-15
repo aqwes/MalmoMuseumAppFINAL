@@ -39,7 +39,7 @@ public class Server implements Runnable {
 
     private void addThread(Socket socket) {
         System.out.println("Client accepted: " + socket);
-        client = new ServerThread(this, socket);
+        client = new ServerThread(socket);
         client.start();
     }
 
