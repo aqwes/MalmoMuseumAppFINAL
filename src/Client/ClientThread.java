@@ -53,7 +53,7 @@ public class ClientThread extends Thread {
                         gui.close();
                         connected = false;
                     }
-                    else if (message.equals("Wrong")) {
+                    else if (message.equals("Wrong")||message.equals("regWrong")) {
                         gui.emptyfields();
                         JOptionPane.showMessageDialog(null,"Användarnamn eller lösenord är fel!");
                     }
@@ -63,16 +63,6 @@ public class ClientThread extends Thread {
                         connected = false;
                         JOptionPane.showMessageDialog(null,"Grattis! Du är nu registrerad. Välkommen in i värmen!");
                     }
-
-                    else if (message.equals("regWrong")) {
-                        gui.emptyfields();
-                        JOptionPane.showMessageDialog(null,"Både användarnamn och lösenord måste uppnå följande regler"+"\n"+
-                        "* Måste vara minst 6 karaktärer långt."+"\n"+
-                                "* Måste innehålla minst en versal."+"\n"+
-                                "* Måste innehålla minst en gemen."+"\n"+
-                                "* Mellanslag är ej tillåtet.");
-                    }
-
                 }
 
                 while ((userInput = streamIn.readUTF()) != null) {

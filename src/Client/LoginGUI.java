@@ -15,6 +15,7 @@ class LoginGUI implements ActionListener {
     private Client client;
     private JButton loginButton;
     private JButton regButton;
+    private JTextPane info;
 
 
     private Font que = new Font("TimesRoman", Font.ROMAN_BASELINE, 18);
@@ -24,7 +25,7 @@ class LoginGUI implements ActionListener {
         frame = new JFrame("MalmöMuseumApp - inloggning");
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setSize(300, 150);
+        frame.setSize(300, 320);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setBackground(Color.black);
@@ -70,6 +71,15 @@ class LoginGUI implements ActionListener {
         regButton.setFont(que);
         panel.add(regButton);
 
+        info = new JTextPane();
+        info.setBounds(10, 120, 280, 200);
+        info.setFont(que);
+        info.setForeground(Color.WHITE);
+        info.setBackground(Color.black);
+        info.setEditable(false);
+        panel.add(info);
+        infoSetText();
+
         loginButton.addActionListener(this);
         regButton.addActionListener(this);
 
@@ -97,6 +107,13 @@ class LoginGUI implements ActionListener {
     public void emptyfields() {
         userText.setText("");
         passwordText.setText("");
+    }
+    public void infoSetText(){
+        info.setText("Tänk på att vid registrering måste både användarnamn och lösenord uppnå följande regler:"+"\n"+"\n"+
+                "* Måste vara minst 6 karaktärer långt."+"\n"+
+                "* Måste innehålla minst en versal."+"\n"+
+                "* Måste innehålla minst en gemen."+"\n"+
+                "* Mellanslag är ej tillåtet.");
     }
 }
 
