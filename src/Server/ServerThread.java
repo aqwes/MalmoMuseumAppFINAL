@@ -11,8 +11,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 
 /**
- * This is the chatServerThread. It´s purpose is to read and send message to all clients
- * Created by Dennis on 2016-01-02.
+ * Created by Dennis on 2016-03-15.
  */
 public class ServerThread extends Thread {
     private final Socket socket;
@@ -20,8 +19,8 @@ public class ServerThread extends Thread {
     private DataOutputStream streamOut;
     private String user;
     private String password;
-    private ConnectorUser connectorUser;
-    private ConnectorQuestion conQuestion;
+    private final ConnectorUser connectorUser;
+    private final ConnectorQuestion conQuestion;
 
     private String points;
 
@@ -34,7 +33,7 @@ public class ServerThread extends Thread {
     public ServerThread(Socket socket) {
         this.socket = socket;
         conQuestion = new ConnectorQuestion(3306, this);
-        connectorUser = new ConnectorUser(3306);
+        connectorUser = new ConnectorUser(3306, this);
 
     }
 
@@ -52,16 +51,12 @@ public class ServerThread extends Thread {
         try {
             conQuestion.getQuestions();
             conQuestion.getAnswers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * This method creates a inputstream and a outputstream. When there is a message to read we append it to the gui.
-     */
+
     public void run() {
         try {
             streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -95,25 +90,25 @@ public class ServerThread extends Thread {
                     if (connectorUser.connectorREG(user, password)) {
                         streamOut.writeUTF("regCorr");
                         streamOut.flush();
-                        userRegTrue = false;
-                        passRegTrue = false;
-
-                    } else if (!connectorUser.connectorREG(user, password)) {
+                    } else {
                         streamOut.writeUTF("regWrong");
                         streamOut.flush();
                     }
+                    userRegTrue = false;
+                    passRegTrue = false;
 
                 }
-                else if (userTrue && passTrue) {
+                if (userTrue && passTrue) {
                     if (connectorUser.user(user, password)) {
                         streamOut.writeUTF("Connected");
                         streamOut.flush();
-                        userTrue = false;
-                        passTrue = false;
-                    } else if (!connectorUser.user(user, password)) {
+
+                    } else {
                         streamOut.writeUTF("Wrong");
                         streamOut.flush();
                     }
+                    userTrue = false;
+                    passTrue = false;
                 }
                 if (line.contains("clientExit.")) {
                     System.out.print(socket + "Disconnected");
@@ -122,9 +117,10 @@ public class ServerThread extends Thread {
                 if (line.contains("points.")) {
                     points = line.replaceAll("points.", "");
                     connectorUser.sendPoint(points, user);
+                    connectorUser.getHighScore();
 
                 }
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }
@@ -135,8 +131,17 @@ public class ServerThread extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
 
+    public void highScore(String namePoint, String point) {
+        try {
+            streamOut.writeUTF("Score." + namePoint + ": " + point);
+            streamOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     }
+
 

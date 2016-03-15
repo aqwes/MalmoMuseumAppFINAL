@@ -4,13 +4,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Created by Dennis on 2016-03-15.
+ */
 public class Client implements Runnable {
-    private String hostname;
-    private int port;
+    private final String hostname;
+    private final int port;
     private Socket socketClient;
     private QuestionPanel questionPanel;
     private DataOutputStream streamOut = null;
-    private LoginGUI gui;
+    private final LoginGUI gui;
     private Thread thread;
     private ClientThread client;
 
@@ -47,7 +50,7 @@ public class Client implements Runnable {
                 streamOut.writeUTF("password." + password);
                 streamOut.flush();
 
-            }else if (regOrLog) {
+            }else {
                     streamOut.writeUTF("regname." + userName);
                     streamOut.writeUTF("regpass." + password);
                     streamOut.flush();
@@ -77,6 +80,7 @@ public class Client implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
     public void stop() {
         try {

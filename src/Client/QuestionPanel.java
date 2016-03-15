@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class QuestionPanel implements ActionListener {
-    private Font header = new Font("TimesRoman", Font.PLAIN, 30);
-    private Font reg = new Font("TimesRoman", Font.PLAIN, 22);
-    private Font que = new Font("TimesRoman", Font.BOLD, 20);
+    private final Font header = new Font("TimesRoman", Font.PLAIN, 30);
+    private final Font reg = new Font("TimesRoman", Font.PLAIN, 22);
+    private final Font que = new Font("TimesRoman", Font.BOLD, 20);
     private JTextPane question1;
     private JTextPane points;
     private String correctAnswer;
-    private Client client;
+    private final Client client;
     private JCheckBox answer1;
     private JCheckBox answer2;
     private JCheckBox answer3;
@@ -46,7 +46,6 @@ class QuestionPanel implements ActionListener {
         frame.add(northPanel, BorderLayout.NORTH);
         frame.add(centerPanel, BorderLayout.CENTER);
         frame.add(southPanel, BorderLayout.SOUTH);
-        frame.setVisible(true);
     }
 
     private void init() {
@@ -107,7 +106,7 @@ class QuestionPanel implements ActionListener {
         answerCorrOrWrong.setFont(header);
 
 
-        nextButton = new JButton("Nästa fråga");
+        nextButton = new JButton("Starta");
         nextButton.setPreferredSize(new Dimension(300, 40));
         nextButton.setFont(header);
 
@@ -186,6 +185,10 @@ class QuestionPanel implements ActionListener {
             answerCorrOrWrong.setText("");
             answeredQuestions++;
 
+            if (answeredQuestions <= 4) {
+                nextButton.setText("Nästa fråga!");
+            }
+
             if(answeredQuestions==5){
                 nextButton.setText("Avsluta runda!");
             }
@@ -224,7 +227,7 @@ class QuestionPanel implements ActionListener {
                     answerCorrOrWrong.setText("Fel!");
                 }
             }
-        } catch (NullPointerException r) {
+        } catch (NullPointerException ignored) {
         }
         points.setText("" + userPoints);
     }
@@ -266,6 +269,10 @@ class QuestionPanel implements ActionListener {
         answer3.setText("");
 
 
+    }
+
+    public void show() {
+        frame.setVisible(true);
     }
 }
 

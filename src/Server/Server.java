@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
+/**
+ * Created by Dennis on 2016-03-15.
+ */
 public class Server implements Runnable {
     private ServerSocket server = null;
     private Thread thread = null;
@@ -43,13 +45,13 @@ public class Server implements Runnable {
         client.start();
     }
 
-    public void start() {
+    private void start() {
         if (thread == null) {
             thread = new Thread(this);
             thread.start();
         }
     }
-    public void stop() {
+    private void stop() {
         if (thread != null) {
             thread.interrupt();
             thread = null;

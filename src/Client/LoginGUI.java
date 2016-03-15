@@ -6,19 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Dennis on 2016-03-03.
+ * Created by Dennis on 2016-03-15.
  */
 class LoginGUI implements ActionListener {
     private JTextField userText;
     private JTextField passwordText;
-    private JFrame frame;
-    private Client client;
+    private final JFrame frame;
+    private final Client client;
     private JButton loginButton;
     private JButton regButton;
     private JTextPane info;
 
 
-    private Font que = new Font("TimesRoman", Font.ROMAN_BASELINE, 18);
+    private final Font que = new Font("TimesRoman", Font.ROMAN_BASELINE, 18);
 
     public LoginGUI(Client client) {
         this.client = client;

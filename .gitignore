@@ -1,8 +1,4 @@
 
-*.class
-.DS_STORE
-/in/
-/bin/
 /out/
 *.iml
 *.idea

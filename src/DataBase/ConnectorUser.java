@@ -1,8 +1,12 @@
 package DataBase;
 
-import javax.swing.*;
+import Server.ServerThread;
+
 import java.sql.*;
 
+/**
+ * Created by Dennis on 2016-03-15.
+ */
 public class ConnectorUser {
 
     private final String jdbcUrl;
@@ -12,10 +16,13 @@ public class ConnectorUser {
     private boolean connected;
     private String name;
     private String pass;
-    private String regex ="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
-    private boolean reg;
+    private final String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$";
+    private boolean reg = false;
+    private final ServerThread serverThread;
+    private String point;
 
-    public ConnectorUser(int port) {
+    public ConnectorUser(int port, ServerThread serverThread) {
+        this.serverThread = serverThread;
         String dbName = "museumapp";
         String userName = "AdminUser";
         String password = "Hejsan54";
@@ -43,9 +50,9 @@ public class ConnectorUser {
                     return connected = true;
                 }
             }
-                 if (!name.equals(username) || !pass.equals(password)) {
-                    return connected = false;
-                }
+            if (!name.equals(username) || !pass.equals(password)) {
+                return connected = false;
+            }
 
 
         } catch (SQLException e) {
@@ -58,10 +65,10 @@ public class ConnectorUser {
     public void sendPoint(String points, String user) {
         try {
             conn = DriverManager.getConnection(jdbcUrl);
-            PreparedStatement pst = conn.prepareStatement("UPDATE Medlem SET points = '"+points+"' "
-                    + "WHERE userName = '"+user+"';");
+            PreparedStatement pst = conn.prepareStatement("UPDATE Medlem SET points = '" + points + "' "
+                    + "WHERE userName = '" + user + "';");
             pst.executeUpdate();
-            conn.close();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,29 +76,46 @@ public class ConnectorUser {
     }
 
     public boolean connectorREG(String username, String password) {
-    try {
-        statement = conn.createStatement();
-        resultSet = statement.executeQuery("SELECT userName, password from Medlem");
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery("SELECT userName, password from Medlem");
 
-        while (resultSet.next()) {
-            name = resultSet.getString(1);
-            if (name.equals(username)) {
-                  reg = false;
-                break;
+            while (resultSet.next()) {
+                name = resultSet.getString(1);
+                if (username.equals(name)) {
+                    reg = false;
+                }
+                else{
+                    reg=true;
+                }
             }
+            if (reg) {
+                if (username.matches(regex) && password.matches(regex)) {
+                    statement.executeUpdate("INSERT INTO Medlem (userName, password, points) VALUES "
+                            + "('" + username + "', '" + password + "','0');");
+                }else{
+                    reg=false;
+            }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-            if(username.matches(regex) && password.matches(regex)) {
-                statement.executeUpdate("INSERT INTO Medlem (userName, password, points) VALUES "
-                        + "('" + username + "', '" + password + "','0');");
-                reg = true;
-                System.out.print("df");
-            }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-
+        return reg;
     }
-    return reg;
-}
+
+    public void getHighScore() {
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery("SELECT userName,points from Medlem ORDER by points desc");
+
+            while (resultSet.next()) {
+                name = resultSet.getString(1);
+                point = resultSet.getString(2);
+                serverThread.highScore(name, point);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
 }

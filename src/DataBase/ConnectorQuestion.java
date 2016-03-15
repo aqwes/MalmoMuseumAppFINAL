@@ -5,13 +5,16 @@ import Server.ServerThread;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Created by Dennis on 2016-03-15.
+ */
 public class ConnectorQuestion {
 
     private final String jdbcUrl;
     private Connection conn = null;
     private ResultSet resultSet = null;
     private Statement statement = null;
-    private ServerThread serverThread;
+    private final ServerThread serverThread;
     private int i = 1;
 
 
