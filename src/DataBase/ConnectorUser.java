@@ -68,7 +68,7 @@ public class ConnectorUser {
     }
 
     public boolean connectorREG(String username, String password) {
-        boolean reg=true;
+        boolean reg=false;
     try {
         statement = conn.createStatement();
         resultSet = statement.executeQuery("SELECT userName, password from Medlem");
@@ -84,11 +84,12 @@ public class ConnectorUser {
             if(username.matches(regex) && password.matches(regex))
     statement.executeUpdate("INSERT INTO Medlem (userName, password, points) VALUES "
             + "('" + username + "', '" + password + "','0');");
+            reg=true;
         }
 
     } catch (SQLException e) {
         e.printStackTrace();
-        return connected = false;
+
     }
     return reg;
 }
