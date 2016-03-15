@@ -55,7 +55,7 @@ public class ClientThread extends Thread {
                     }
                     else if (message.equals("Wrong")) {
                         gui.emptyfields();
-                        JOptionPane.showMessageDialog(null,"Fel användarnamn eller lösernord.");
+                        JOptionPane.showMessageDialog(null,"Användarnamn eller lösenord är fel!");
                     }
                     else if (message.equals("regWrong")) {
                         gui.emptyfields();

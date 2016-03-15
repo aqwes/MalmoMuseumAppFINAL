@@ -76,11 +76,16 @@ class LoginGUI implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (loginButton == e.getSource()) {
-            client.connect(userText.getText(), passwordText.getText(),false);
+        if((userText.getText().length()>=1) && (passwordText.getText().length()>=1)) {
+            if (loginButton == e.getSource()) {
+                client.connect(userText.getText(), passwordText.getText(), false);
+            }
+            if (regButton == e.getSource()) {
+                client.connect(userText.getText(), passwordText.getText(), true);
+            }
         }
-        if (regButton == e.getSource()) {
-            client.connect(userText.getText(), passwordText.getText(),true);
+        else{
+            JOptionPane.showMessageDialog(null, "Användarnamn eller lösenord är fel!");
         }
     }
 
