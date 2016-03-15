@@ -149,6 +149,7 @@ class HighscorePanel implements ActionListener {
         if (exitButton == e.getSource()) {
             frame.dispose();
             frame.setVisible(false);
+            System.exit(0);
         }
     }
 
